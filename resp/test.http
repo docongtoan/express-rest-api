@@ -1,3 +1,6 @@
 
 ### requets person get list
 GET http://localhost:3000/person/get-list
+
+### requets person get row
+GET http://localhost:3000/person/get-row/-1

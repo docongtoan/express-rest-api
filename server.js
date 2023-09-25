@@ -6,15 +6,18 @@ const app = express();
 
 const Router = require('./routers/index.router');
 
+const mongoDB = require('./database/mongo');
+
 dotenv.config();
 
 const port = process.env.PORT;
 
 app.use(express.json());
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 app.use('/',Router);
+
 
 app.use((req,res,next)=> {
     // handle 404 not found
@@ -25,12 +28,10 @@ app.use((req,res,next)=> {
 
 app.use((error,req,res,next)=> {
     // handle error  
-    if(error && error.status){
-        res.status(error.status || 500).json({
-            status: 'failed',
-            message: error
-        });
-    }
+    res.status(error.status || 500).json({
+        status: 'failed',
+        message: error.message || 'Internal server error',
+    });
 });
 
 app.listen(port,()=>{
